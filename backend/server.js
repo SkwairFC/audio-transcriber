@@ -11,6 +11,20 @@ require('dotenv').config();
 
 const app = express();
 
+app.post('/process-audio', upload.single('audio'), async (req, res) => {
+  console.log('Requête reçue sur /process-audio');  // Nouveau log
+  let gcsUri = null;
+  let wavFile = null;
+  
+  try {
+    if (!req.file) {
+      console.log('Pas de fichier dans la requête');  // Nouveau log
+      return res.status(400).send('Aucun fichier audio fourni');
+    }
+
+    console.log('Fichier reçu:', req.file);  // Log plus détaillé
+
+
 // Une seule configuration CORS
 app.use(cors({
   origin: ['https://audio-transcriber-inky.vercel.app', 'http://localhost:5174'],
