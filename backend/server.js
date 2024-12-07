@@ -7,11 +7,21 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const path = require('path');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Configurez CORS avant toutes les routes
+app.use(cors({
+  origin: ['https://audio-transcriber-inky.vercel.app', 'http://localhost:5174'],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  maxAge: 86400 // cache pour 24 heures
+}));
 
 // Configuration de Google Cloud Storage
 const storage = new Storage({
