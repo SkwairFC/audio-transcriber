@@ -125,7 +125,7 @@ app.post('/process-audio', upload.single('audio'), async (req, res) => {
       .join('\n');
 
     console.log('Transcription terminée, génération du résumé...');
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = `Résume le texte suivant qui est une transcription de réunion en français. 
                    Identifie les points clés et les décisions importantes :
                    ${transcript}`;
