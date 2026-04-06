@@ -17,8 +17,8 @@ if (!fs.existsSync('uploads')) {
 }
 
 // Load Google credentials from env variable or file
-const googleCredentials = process.env.GOOGLE_CREDENTIALS_JSON
-  ? JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON)
+const googleCredentials = process.env.GOOGLE_CREDENTIALS_BASE64
+  ? JSON.parse(Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, 'base64').toString('utf8'))
   : undefined;
 
 // Une seule configuration CORS
