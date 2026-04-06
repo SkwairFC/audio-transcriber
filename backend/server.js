@@ -11,6 +11,11 @@ require('dotenv').config();
 
 const app = express();
 
+// Create uploads directory if it doesn't exist
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
 // Une seule configuration CORS
 app.use(cors({
   origin: ['https://audio-transcriber-inky.vercel.app', 'http://localhost:5174'],
