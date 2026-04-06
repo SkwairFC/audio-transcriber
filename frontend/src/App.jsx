@@ -66,7 +66,7 @@ const AudioTranscriber = () => {
       const formData = new FormData();
       formData.append('audio', audioFile);
 
-const response = await fetch(`${API_URL}/api/transcribe`, {
+const response = await fetch(`${API_URL}/process-audio`, {
   method: 'POST',
   body: formData,
   headers: {
