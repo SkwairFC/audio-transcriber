@@ -16,6 +16,11 @@ if (!fs.existsSync('uploads')) {
   fs.mkdirSync('uploads');
 }
 
+// Load Google credentials from env variable or file
+const googleCredentials = process.env.GOOGLE_CREDENTIALS_JSON
+  ? JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON)
+  : undefined;
+
 // Une seule configuration CORS
 app.use(cors({
   origin: ['https://audio-transcriber-inky.vercel.app', 'http://localhost:5174'],
@@ -28,9 +33,9 @@ app.use(cors({
 app.use(express.json());
 
 // Configuration de Google Cloud Storage
-const storage = new Storage({
-  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
-});
+const storage = new Storage(
+  googleCredentials ? { credentials: googleCredentials } : { keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS }
+);
 
 const bucketName = 'audio-transcriber-bucket-flo'; // Mettez le nom exact de votre bucket
 const bucket = storage.bucket(bucketName);
@@ -46,9 +51,9 @@ const uploadStorage = multer.diskStorage({
 
 const upload = multer({ storage: uploadStorage });
 
-const speechClient = new speech.SpeechClient({
-  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
-});
+const speechClient = new speech.SpeechClient(
+  googleCredentials ? { credentials: googleCredentials } : { keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS }
+);
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
